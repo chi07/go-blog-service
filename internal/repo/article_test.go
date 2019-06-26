@@ -3,6 +3,7 @@ package repo_test
 import (
 	"context"
 	"testing"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -27,9 +28,12 @@ func setupArticleRepo(t require.TestingT) *repo.Article {
 func TestArticle_Create(t *testing.T) {
 	articleRepo := setupArticleRepo(t)
 	ctx := context.Background()
+	now := time.Now()
 	article := &model.Article{
-		Title:   "Golang Vietnam",
-		Content: []byte("Golang Vietnam forum discussion"),
+		Title:     "Golang Vietnam",
+		Content:   []byte("Golang Vietnam forum discussion"),
+		CreatedAt: now,
+		UpdatedAt: now,
 	}
 	err := articleRepo.Create(ctx, article)
 	assert.NoError(t, err)
@@ -38,10 +42,13 @@ func TestArticle_Create(t *testing.T) {
 func TestArticle_Get(t *testing.T) {
 	articleRepo := setupArticleRepo(t)
 	ctx := context.Background()
+	now := time.Now()
 	article := &model.Article{
-		ID:      1,
-		Title:   "Golang Vietnam",
-		Content: []byte("Golang Vietnam forum discussion"),
+		ID:        1,
+		Title:     "Golang Vietnam",
+		Content:   []byte("Golang Vietnam forum discussion"),
+		CreatedAt: now,
+		UpdatedAt: now,
 	}
 	err := articleRepo.Create(ctx, article)
 	require.NoError(t, err)
@@ -55,10 +62,13 @@ func TestArticle_Get(t *testing.T) {
 func TestArticle_Update(t *testing.T) {
 	articleRepo := setupArticleRepo(t)
 	ctx := context.Background()
+	now := time.Now()
 	article := &model.Article{
-		ID:      1,
-		Title:   "Golang Vietnam",
-		Content: []byte("Golang Vietnam forum discussion"),
+		ID:        1,
+		Title:     "Golang Vietnam",
+		Content:   []byte("Golang Vietnam forum discussion"),
+		CreatedAt: now,
+		UpdatedAt: now,
 	}
 	err := articleRepo.Create(ctx, article)
 	require.NoError(t, err)
@@ -75,14 +85,71 @@ func TestArticle_Update(t *testing.T) {
 func TestArticle_Delete(t *testing.T) {
 	articleRepo := setupArticleRepo(t)
 	ctx := context.Background()
+	now := time.Now()
 	article := &model.Article{
-		ID:      1,
-		Title:   "Golang Vietnam",
-		Content: []byte("Golang Vietnam forum discussion"),
+		ID:        1,
+		Title:     "Golang Vietnam",
+		Content:   []byte("Golang Vietnam forum discussion"),
+		CreatedAt: now,
+		UpdatedAt: now,
 	}
 	err := articleRepo.Create(ctx, article)
 	require.NoError(t, err)
 
 	err = articleRepo.Delete(ctx, article.ID)
 	assert.NoError(t, err)
+}
+
+func TestArticle_List(t *testing.T) {
+	articleRepo := setupArticleRepo(t)
+	ctx := context.Background()
+	now := time.Now()
+	articles := []*model.Article{
+		{
+			Title:     "Golang Vietnam: Why we are should use Go",
+			Content:   []byte("Go is simple, fast, and secure"),
+			CreatedAt: now,
+			UpdatedAt: time.Now(),
+		},
+		{
+			Title:     "Golang Vietnam: Loop",
+			Content:   []byte("For loop in Golang ...."),
+			CreatedAt: now,
+			UpdatedAt: time.Now(),
+		},
+		{
+			Title:     "Golang Vietnam: Interface in Go",
+			Content:   []byte("Go Interface content goes here"),
+			CreatedAt: now,
+			UpdatedAt: time.Now(),
+		},
+		{
+			Title:     "Golang Vietnam: Channel in Go",
+			Content:   []byte("Content goes here"),
+			CreatedAt: now,
+			UpdatedAt: time.Now(),
+		},
+		{
+			Title:     "Golang Vietnam: Concurrency",
+			Content:   []byte("Golang Vietnam forum discussion"),
+			CreatedAt: now,
+			UpdatedAt: time.Now(),
+		},
+	}
+	err := articleRepo.Create(ctx, articles[0])
+	require.NoError(t, err)
+	err = articleRepo.Create(ctx, articles[1])
+	require.NoError(t, err)
+	err = articleRepo.Create(ctx, articles[2])
+	require.NoError(t, err)
+	err = articleRepo.Create(ctx, articles[3])
+	require.NoError(t, err)
+	err = articleRepo.Create(ctx, articles[4])
+	require.NoError(t, err)
+
+	p := &model.Paginator{CurrentPage: 1, Limit: 3, Total: 5, Offset: 0}
+
+	actual, err := articleRepo.List(ctx, p)
+	assert.NoError(t, err)
+	assert.Equal(t, 5, len(actual))
 }

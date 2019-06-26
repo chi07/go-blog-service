@@ -39,3 +39,12 @@ func (a *Article) Delete(ctx context.Context, id uint64) error {
 	_, err := a.db.ExecContext(ctx, "DELETE FROM `articles` WHERE `id`=?", id)
 	return errors.Wrap(err, "cannot delete article in DB")
 }
+
+func (a *Article) List(ctx context.Context, paginator *model.Paginator) ([]*model.Article, error) {
+	var articles []*model.Article
+	err := a.db.SelectContext(ctx, &articles, "SELECT * FROM `articles`")
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot get articles")
+	}
+	return articles, nil
+}
