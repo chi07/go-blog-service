@@ -7,10 +7,10 @@ import (
 )
 
 type DeleteArticleService struct {
-	articleRemover ArticleRemover
+	articleRemover ArticleDeleter
 }
 
-func NewDeleteArticleService(articleRemover ArticleRemover) *DeleteArticleService {
+func NewDeleteArticleService(articleRemover ArticleDeleter) *DeleteArticleService {
 	return &DeleteArticleService{articleRemover: articleRemover}
 }
 

@@ -8,7 +8,7 @@ import (
 )
 
 type ListArticle struct {
-	articleListReader ArticleListReader
+	articleListReader ArticleLister
 }
 
 func (s *ListArticle) NewListArticle(ctx context.Context, paginator *model.Paginator) ([]*model.Article, error) {

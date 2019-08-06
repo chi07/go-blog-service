@@ -8,10 +8,10 @@ import (
 )
 
 type GetArticleService struct {
-	articleReader ArticleReader
+	articleReader ArticleGetter
 }
 
-func NewGetArticleService(articleReader ArticleReader) *GetArticleService {
+func NewGetArticleService(articleReader ArticleGetter) *GetArticleService {
 	return &GetArticleService{articleReader: articleReader}
 }
 
