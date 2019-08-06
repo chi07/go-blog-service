@@ -2,6 +2,7 @@ package repo_test
 
 import (
 	"context"
+	"fmt"
 	"testing"
 	"time"
 
@@ -148,6 +149,10 @@ func TestArticle_List(t *testing.T) {
 	require.NoError(t, err)
 
 	p := &model.Paginator{CurrentPage: 1, Limit: 3, Total: 5, Offset: 0}
+
+	hour, min, second := time.Now().Clock()
+	fmt.Println("hour: ", hour, ", min: ", min, ", second: ", second)
+	fmt.Println("Hello, playground")
 
 	actual, err := articleRepo.List(ctx, p)
 	assert.NoError(t, err)

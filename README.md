@@ -9,3 +9,4 @@ example:
     `export BLOG_TEST_DB_URL="root:password@tcp(localhost:23306)/blog?parseTime=true"`
 
 run command: `go test ./...`
+

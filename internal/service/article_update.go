@@ -9,10 +9,10 @@ import (
 )
 
 type UpdateArticleService struct {
-	articleSaver ArticleSaver
+	articleSaver ArticleUpdater
 }
 
-func NewUpdateArticleService(articleWriter ArticleSaver) *UpdateArticleService {
+func NewUpdateArticleService(articleWriter ArticleUpdater) *UpdateArticleService {
 	return &UpdateArticleService{articleSaver: articleWriter}
 }
 
