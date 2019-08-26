@@ -15,8 +15,8 @@ type CreateArticleHandler struct {
 	articleWriter ArticleWriter
 }
 
-func NewCreateArticleHandler(episodeWriter ArticleWriter) *CreateArticleHandler {
-	return &CreateArticleHandler{articleWriter: episodeWriter}
+func NewCreateArticleHandler(articleWriter ArticleWriter) *CreateArticleHandler {
+	return &CreateArticleHandler{articleWriter: articleWriter}
 }
 
 type ArticleRequest struct {
