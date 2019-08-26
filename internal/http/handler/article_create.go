@@ -70,12 +70,19 @@ func (h *CreateArticleHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 	}
 
 	article := &model.Article{
-		Title:           req.Params.Title,
-		Description:     req.Params.Description,
-		Content:         req.Params.Content,
-		MetaKeyWords:    sql.NullString{String: req.Params.MetaKeywords, Valid: true},
-		MetaDescription: sql.NullString{String: req.Params.MetaDescription, Valid: true},
-		Tags:            sql.NullString{String: req.Params.Tags, Valid: true},
+		Title:       req.Params.Title,
+		Description: req.Params.Description,
+		Content:     req.Params.Content,
+	}
+
+	if req.Params.MetaKeywords != "" {
+		article.MetaKeyWords = sql.NullString{String: req.Params.MetaKeywords, Valid: true}
+	}
+	if req.Params.MetaDescription != "" {
+		article.MetaDescription = sql.NullString{String: req.Params.MetaDescription, Valid: true}
+	}
+	if req.Params.Tags != "" {
+		article.Tags = sql.NullString{String: req.Params.Tags, Valid: true}
 	}
 
 	articleID, err := h.articleWriter.Create(r.Context(), article)
