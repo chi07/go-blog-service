@@ -2,7 +2,6 @@ package repo
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
@@ -27,18 +26,14 @@ func (a *Article) Get(ctx context.Context, id uint64) (*model.Article, error) {
 }
 
 func (a *Article) Create(ctx context.Context, article *model.Article) (int64, error) {
-	fmt.Println("khakgs khags")
 	res, err := a.db.ExecContext(ctx, "INSERT INTO `articles` (`title`, `content`, `description`, `meta_keywords`, `meta_description`, `created_at`) VALUES(?, ?, ?, ?, ?, ?)", article.Title, article.Content, article.Description, article.MetaKeyWords, article.MetaDescription, article.CreatedAt)
 	if err != nil {
-		fmt.Println("go there")
 		return 0, errors.Wrap(err, "cannot save new article to DB")
 	}
 	articleID, err := res.LastInsertId()
 	if articleID == 0 || err != nil {
-		fmt.Println("go there")
 		return 0, errors.Wrap(err, "cannot get inserted id from database")
 	}
-	fmt.Println("go sgsd")
 	return articleID, nil
 }
 

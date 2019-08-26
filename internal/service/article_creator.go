@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/pkg/errors"
@@ -25,7 +24,6 @@ func (s *CreateArticleService) Create(ctx context.Context, article *model.Articl
 	articleID, err := s.articleCreator.Create(ctx, article)
 
 	if err != nil || articleID == 0 {
-		fmt.Println("yah", err)
 		return 0, errors.Wrap(err, "cannot create article")
 	}
 	return articleID, nil
