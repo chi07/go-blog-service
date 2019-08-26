@@ -14,7 +14,7 @@ import (
 
 func TestUpdateArticleService_Update(t *testing.T) {
 	ctx := context.Background()
-	article := buildMockArticle("Golang Vietnam", "Go Forum", []byte("Content goes here"))
+	article := buildMockArticle("Golang Vietnam", "Go Forum", "Content goes here")
 	article.ID = uint64(1)
 
 	t.Run("UpdateArticleFailed", func(t *testing.T) {

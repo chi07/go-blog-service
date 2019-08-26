@@ -15,7 +15,7 @@ type ArticleLister interface {
 }
 
 type ArticleCreator interface {
-	Create(ctx context.Context, id *model.Article) error
+	Create(ctx context.Context, article *model.Article) (int64, error)
 }
 
 type ArticleUpdater interface {
@@ -24,4 +24,9 @@ type ArticleUpdater interface {
 
 type ArticleDeleter interface {
 	Delete(ctx context.Context, id uint64) error
+}
+
+type ArticleSaver interface {
+	ArticleGetter
+	ArticleUpdater
 }

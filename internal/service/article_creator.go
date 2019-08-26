@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/pkg/errors"
@@ -16,11 +17,16 @@ func NewCreateArticleService(articleCreator ArticleCreator) *CreateArticleServic
 	return &CreateArticleService{articleCreator: articleCreator}
 }
 
-func (s *CreateArticleService) Create(ctx context.Context, article *model.Article) error {
+func (s *CreateArticleService) Create(ctx context.Context, article *model.Article) (int64, error) {
 	now := time.Now()
 	article.CreatedAt = now
 	article.UpdatedAt = now
 
-	err := s.articleCreator.Create(ctx, article)
-	return errors.Wrap(err, "cannot create article")
+	articleID, err := s.articleCreator.Create(ctx, article)
+
+	if err != nil || articleID == 0 {
+		fmt.Println("yah", err)
+		return 0, errors.Wrap(err, "cannot create article")
+	}
+	return articleID, nil
 }

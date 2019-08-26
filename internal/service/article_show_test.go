@@ -13,7 +13,7 @@ func TestGetArticle_Get(t *testing.T) {
 	ctx := context.Background()
 	t.Run("GetArticleSuccessfully", func(t *testing.T) {
 		articleID := uint64(12)
-		expectedArticle := buildMockArticle("Golang Vietnam", "Forum Golang", []byte("Golang Vietnam"))
+		expectedArticle := buildMockArticle("Golang Vietnam", "Forum Golang", "Golang Vietnam")
 		expectedArticle.ID = articleID
 		articleMockService := new(ArticleMockService)
 		articleMockService.On("Get", ctx, articleID).Return(expectedArticle, nil)

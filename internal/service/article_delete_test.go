@@ -12,7 +12,7 @@ import (
 func TestDeleteArticleService_Delete(t *testing.T) {
 	ctx := context.Background()
 	articleID := uint64(1)
-	article := buildMockArticle("Golang Vietnam", "Go Forum", []byte("Content goes here"))
+	article := buildMockArticle("Golang Vietnam", "Go Forum", "Content goes here")
 	article.ID = articleID
 
 	t.Run("DeleteArticleFailed", func(t *testing.T) {
