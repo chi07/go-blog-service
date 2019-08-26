@@ -1,6 +1,11 @@
 # go-blog-service
 Blog service with Golang programming language
 
+# Clean Architecture + SOLID principle + Dependency Injection
+
+
+
+# Usage
 In Mac: set env by run command
 
 `export BLOG_TEST_DB_URL="username:password@/dbName?parseTime=true"`
