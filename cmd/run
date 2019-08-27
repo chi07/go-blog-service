@@ -1,0 +1,3 @@
+export BLOG_DB_URL="root:password@tcp(localhost:23306)/blog?parseTime=true"
+
+go run blog.go

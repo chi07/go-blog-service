@@ -19,17 +19,8 @@ func NewCreateArticleHandler(articleWriter ArticleWriter) *CreateArticleHandler 
 	return &CreateArticleHandler{articleWriter: articleWriter}
 }
 
-type ArticleRequest struct {
-	Title           string `json:"title"`
-	Description     string `json:"description"`
-	Content         string `json:"content"`
-	Tags            string `json:"tags"`
-	MetaKeywords    string `json:"meta_keywords"`
-	MetaDescription string `json:"meta_description"`
-}
-
 type CreateArticleRequest struct {
-	Params *ArticleRequest `json:"params"`
+	Params *model.ArticleRequest `json:"params"`
 }
 
 func (r *CreateArticleRequest) Bind(req *http.Request) error {

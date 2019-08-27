@@ -20,7 +20,7 @@ type ArticleGetter interface {
 }
 
 type ArticleUpdater interface {
-	Get(ctx context.Context, story *model.Article) error
+	Update(ctx context.Context, articleID uint64, req *model.ArticleRequest) error
 }
 
 type ArticleDeleter interface {

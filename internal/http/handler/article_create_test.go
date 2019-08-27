@@ -97,4 +97,30 @@ func TestCreateArticleHandler_ServeHTTP(t *testing.T) {
 		bodyRes := `{"error":{"message":"cannot save article", "code":500}}`
 		assert.JSONEq(t, bodyRes, w.Body.String())
 	})
+
+	t.Run("Success", func(t *testing.T) {
+		articleService := new(ArticleMockService)
+		createArticleHandler := handler.NewCreateArticleHandler(articleService)
+
+		body := bytes.NewBufferString(`{"params":{"title": "golang programming language", "description": "awesome go", "content": "content goes here"}}`)
+		r := httptest.NewRequest("POST", "/articles", body)
+		r.Header.Set("Content-Type", "application/json")
+
+		article := &model.Article{
+			Title:       "golang programming language",
+			Description: "awesome go",
+			Content:     "content goes here",
+		}
+		ctx := context.Background()
+		articleService.On("Create", ctx, article).Return(int64(1), nil)
+
+		r = r.WithContext(ctx)
+		w := httptest.NewRecorder()
+
+		createArticleHandler.ServeHTTP(w, r)
+		articleService.AssertExpectations(t)
+		assert.Equal(t, http.StatusCreated, w.Code)
+		bodyRes := `{"data":{"articleID":1}}`
+		assert.JSONEq(t, bodyRes, w.Body.String())
+	})
 }

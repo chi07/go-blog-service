@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/pkg/errors"
@@ -9,15 +10,23 @@ import (
 )
 
 type UpdateArticleService struct {
-	articleSaver ArticleUpdater
+	articleSaver ArticleSaver
 }
 
-func NewUpdateArticleService(articleWriter ArticleUpdater) *UpdateArticleService {
-	return &UpdateArticleService{articleSaver: articleWriter}
+func NewUpdateArticleService(articleSaver ArticleSaver) *UpdateArticleService {
+	return &UpdateArticleService{articleSaver: articleSaver}
 }
 
-func (s *UpdateArticleService) Update(ctx context.Context, article *model.Article) error {
+func (s *UpdateArticleService) Update(ctx context.Context, articleID uint64, req *model.ArticleRequest) error {
+	article, err := s.articleSaver.Get(ctx, articleID)
+	if err != nil {
+		return errors.Wrap(err, fmt.Sprintf("cannot found article with ID: %d", articleID))
+	}
+	article.Title = req.Title
+	article.Description = req.Description
+	article.Content = req.Content
 	article.UpdatedAt = time.Now()
-	err := s.articleSaver.Update(ctx, article)
+
+	err = s.articleSaver.Update(ctx, article)
 	return errors.Wrap(err, "cannot update article")
 }
